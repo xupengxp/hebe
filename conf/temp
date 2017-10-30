@@ -1,0 +1,29 @@
+name: "hebetest"
+hdfs_path: "hdfs://ns1/user/ads/warehouse/xupeng5/"
+
+
+partial {
+    name: "inputdata"
+    table: "xupeng5_promotiom_his_ctr_table"
+    columns: "label,adid,bid_type,history_ctr"
+    type: "s,s,s,f"
+    convert: "100000"
+    dtfrom: "20170814"
+}
+shrink {
+    name: "sample"
+    args: "bid_type:4:0.7 bid_type:8:0.2"
+}
+transform {
+    args: "700:10000"
+    type: "INTERVAL_INDEX"
+    columns: "history_ctr"
+}
+transform {
+    type: "SIMPLE_INDEX"
+    columns: "bid_type,adid"
+}
+format {
+    name: "fmdata"
+    pattern: "libsvm"
+}

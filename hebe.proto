@@ -1,0 +1,63 @@
+package hebe;
+
+message DataPartial {
+    required string name = 1 [default = "inputdata"];
+    required string columns = 2 [default = "pvid,deliver_id"];
+    required string type = 3; 
+    required string convert = 4 [default = "100000"];
+    optional string dtfrom = 5; 
+    required string table = 6;
+}
+
+message Shrink {
+    required string name = 1 [default = "null"];
+    optional string args = 2;
+}
+
+message Noise {
+    required string columns = 1;
+    required string to = 2;
+    required string value = 3;
+    required string factor = 4;
+}
+
+message Transform {
+    required string type = 1 [default = "null"];
+    optional string args = 2;
+    required string columns = 3;
+    optional string label = 4 [default = "click"];
+}
+
+message Intersect {
+    required string columns = 1;
+    optional string fix_bundle = 2;
+    optional int32 factor = 3 [default = 2];
+    optional string mapfile = 4 [default = ""];
+    optional string label = 5 [default = "click"];
+}
+
+message Format {
+    required string name = 1 [default = "vw"];
+    required string pattern = 2;
+    optional int32 validate_rate = 3 [default = 0];
+}
+
+message Filter {
+    required string name = 1 [default = "null"];
+    optional string args = 2;
+    required string inputs = 3;
+    required string outputs = 4;
+    optional int32 output_num = 5;
+    optional int32 offset = 6;
+}
+
+message Settings {
+    required string name = 1;
+    required string hdfs_path = 2;
+    repeated DataPartial partial = 3;
+    repeated Shrink shrink = 4;
+    repeated Noise noise = 5;
+    repeated Transform transform = 6;
+    repeated Filter filter = 7;
+    repeated Format format = 8;
+}
